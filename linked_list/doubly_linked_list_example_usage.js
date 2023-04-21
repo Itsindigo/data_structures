@@ -1,3 +1,4 @@
+const { catchAndLog } = require("../utils");
 const { DoublyLinkedList } = require("./doubly_linked_list");
 
 let dll = new DoublyLinkedList();
@@ -26,3 +27,42 @@ while (current) {
     });
     current = current.next;
 }
+
+dll = new DoublyLinkedList();
+dll.insertAtTail("xxx");
+dll.deleteAtTail();
+console.log(dll);
+
+dll.insertAtTail("xxx");
+dll.insertAtTail("yyy");
+dll.deleteAtTail();
+
+console.log(dll);
+
+dll = new DoublyLinkedList();
+dll.insertAtTail("aaa");
+dll.insertAtTail("bbb");
+dll.insertAtTail("ccc");
+dll.deleteAtIndex(0);
+
+console.log(dll);
+
+dll = new DoublyLinkedList();
+dll.insertAtTail("aaa");
+dll.insertAtTail("bbb");
+dll.insertAtTail("ccc");
+
+dll.deleteFirstInstance("bbb");
+catchAndLog(() => dll.deleteFirstInstance("ddd"));
+
+console.log(dll);
+
+dll = new DoublyLinkedList();
+dll.insertAtTail("aaa");
+dll.insertAtTail("bbb");
+dll.insertAtTail("ccc");
+
+dll.reverse();
+console.log(dll);
+
+dll.forEach((data, index) => console.log(`${index}: ${data}`));
