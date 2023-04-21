@@ -1,4 +1,3 @@
-// data structures
 class Node {
     constructor(data) {
         this.data = data;
@@ -9,12 +8,14 @@ class Node {
 class SinglyLinkedList {
     constructor() {
         this.head = null;
+        this.size = 0;
     }
 
     insertAtHead(data) {
         const node = new Node(data);
         node.next = this.head;
         this.head = node;
+        this.#increaseSize();
         return this;
     }
 
@@ -31,6 +32,7 @@ class SinglyLinkedList {
             current = current.next;
         }
         current.next = node;
+        this.#increaseSize();
         return this;
     }
 
@@ -39,24 +41,26 @@ class SinglyLinkedList {
             return this.insertAtHead(data);
         }
 
-        let current_pos = 1;
+        let currentPos = 1;
         let prev = this.head;
         let current = this.head.next;
 
         const node = new Node(data);
 
         while (current) {
-            if (current_pos === index) {
+            if (currentPos === index) {
                 node.next = current;
                 prev.next = node;
+                this.#increaseSize();
                 return this;
             }
 
             prev = current;
             current = current.next;
-            current_pos += 1;
+            currentPos += 1;
         }
         prev.next = node;
+        this.#increaseSize();
         return this;
     }
 
@@ -68,6 +72,7 @@ class SinglyLinkedList {
         }
 
         this.head = this.head.next;
+        this.#decreaseSize();
         return this;
     }
 
@@ -86,6 +91,7 @@ class SinglyLinkedList {
         }
 
         prev.next = null;
+        this.#decreaseSize();
         return this;
     }
 
@@ -100,23 +106,24 @@ class SinglyLinkedList {
             return this.deleteAtHead();
         }
 
-        let current_pos = 1;
+        let currentPos = 1;
 
         let prev = this.head;
         let current = this.head.next;
 
         while (current.next) {
-            if (index === current_pos) {
+            if (index === currentPos) {
                 prev.next = current.next;
+                this.#decreaseSize();
                 return this;
             }
             prev = current;
             current = current.next;
-            current_pos += 1;
+            currentPos += 1;
         }
 
         throw new Error(
-            `Cannot delete index out of bounds, max index is ${current_pos}`
+            `Cannot delete index out of bounds, max index is ${currentPos}`
         );
     }
 
@@ -128,6 +135,7 @@ class SinglyLinkedList {
         }
 
         if (this.head.data === value) {
+            this.#decreaseSize();
             return this.deleteAtHead();
         }
 
@@ -137,6 +145,7 @@ class SinglyLinkedList {
         while (current) {
             if (current.data === value) {
                 prev.next = current.next;
+                this.#decreaseSize();
                 return this;
             }
             prev = current;
@@ -144,6 +153,64 @@ class SinglyLinkedList {
         }
 
         throw new Error(`Could not find node with value "${value}"`);
+    }
+
+    searchByValue(val) {
+        let currentPos = 0;
+        let current = this.head;
+
+        while (current) {
+            if (current.data === val) {
+                return currentPos;
+            }
+
+            current = current.next;
+            currentPos += 1;
+        }
+
+        return -1;
+    }
+
+    getValueByIndex(index) {
+        let currentPos = 0;
+        let current = this.head;
+
+        while (current) {
+            if (currentPos === index) {
+                return current.data;
+            }
+            current = current.next;
+            currentPos += 1;
+        }
+
+        throw new Error(
+            `Cannot find item at index due to out of bounds, max index is ${currentPos}`
+        );
+    }
+
+    forEach(cb) {
+        let currentPos = 0;
+        let current = this.head;
+
+        while (current) {
+            cb(current.data, currentPos);
+            current = current.next;
+            currentPos += 1;
+        }
+
+        return this;
+    }
+
+    getSize() {
+        return this.size;
+    }
+
+    #increaseSize() {
+        this.size += 1;
+    }
+
+    #decreaseSize() {
+        this.size -= 1;
     }
 }
 

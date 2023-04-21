@@ -25,16 +25,26 @@ linkedList.insertAtTail("ABC");
 linkedList.deleteFirstInstance("ABC");
 catchAndLog(() => linkedList.deleteFirstInstance("zzzzzz"));
 
+/* Finding node indexes by value */
+console.log(
+    `An element that exists, like "Other" should return the index. "Other" returned: ${linkedList.searchByValue(
+        "Other"
+    )};`
+);
+/* not found returns -1 */
+console.log(
+    `An element that does not exist should return -1. "xoxoxoxo" returned: ${linkedList.searchByValue(
+        "xoxoxoxo"
+    )};`
+);
+
+/* Finding node data by index */
+console.log(`Get value at index 2: ${linkedList.getValueByIndex(2)}`);
+catchAndLog(() => linkedList.getValueByIndex(99));
+
 /* inserting at invalid index should error */
 catchAndLog(() => linkedList.deleteAtIndex(999));
 
-/* Always gotta set the current to a starting point, not the list itself */
-let current = linkedList.head;
-let index = 0;
+linkedList.forEach((data, index) => console.log(`${index}: ${data}`));
 
-/* In order to process final element, remember to loop from current, not current.next  */
-while (current) {
-    console.log(`${index}: ${current.data}`);
-    current = current.next;
-    index += 1;
-}
+console.log(`Size: ${linkedList.getSize()}`);

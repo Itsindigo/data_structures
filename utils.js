@@ -1,8 +1,8 @@
 function catchAndLog(cb) {
     try {
-        cb();
+        return cb();
     } catch (err) {
-        console.log(`Caught an error: ${err}`);
+        console.log(`Caught an error -- ${err}`);
     }
 }
 
