@@ -63,8 +63,6 @@ class DoublyLinkedList {
 
         let size = this.getSize();
 
-        console.log({ index, size });
-
         if (index > size) {
             return this.insertAtTail(data);
         }
